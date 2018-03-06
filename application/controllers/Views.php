@@ -1,10 +1,7 @@
 <?php
-
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class Views extends Application
 {
-
     /**
      * Index Page for this controller.
      *
@@ -26,10 +23,8 @@ class Views extends Application
             $this->data['rightside'] = 'by_category';
             $this->data['leftside'] = $this->makePrioritizedPanel($tasks);
             $this->data['rightside'] = $this->makeCategorizedPanel($tasks);
-
             $this->render('template_secondary');
     }
-
     function makePrioritizedPanel($tasks) {
         // extract the undone tasks
         foreach ($tasks as $task)
@@ -61,6 +56,8 @@ class Views extends Application
         }
         
         // and then pass them on
+        $role = $this->session->userdata('userrole');
+        $parms['completer'] = ($role == ROLE_OWNER) ? '/views/complete' : '#';
         $parms = ['display_tasks' => $converted];
         return $this->parser->parse('by_priority', $parms, true);
     }
@@ -69,5 +66,23 @@ class Views extends Application
     {
         $parms = ['display_tasks' => $this->tasks->getCategorizedTasks()];
         return $this->parser->parse('by_category', $parms, true);
+    }
+    
+    // complete flagged items
+    function complete() {
+        $role = $this->session->userdata('userrole');
+        if ($role != ROLE_OWNER) redirect('/work');
+
+        // loop over the post fields, looking for flagged tasks
+        foreach($this->input->post() as $key=>$value) {
+            if (substr($key,0,4) == 'task') {
+                // find the associated task
+                $taskid = substr($key,4);
+                $task = $this->tasks->get($taskid);
+                $task->status = 2; // complete
+                $this->tasks->update($task);
+            }
+        }
+        $this->index();
     }
 }
