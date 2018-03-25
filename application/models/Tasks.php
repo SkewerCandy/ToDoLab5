@@ -1,9 +1,9 @@
 <?php
-class Tasks extends CSV_Model {
+class Tasks extends XML_Model {
 
     public function __construct()
     {
-            parent::__construct(APPPATH . '../data/tasks.csv', 'id');
+            parent::__construct(APPPATH . '../data/tasks.xml', 'id');
     }
     
     // provide form validation rules
@@ -16,6 +16,34 @@ class Tasks extends CSV_Model {
             ['field' => 'group', 'label' => 'Task group', 'rules' => 'integer|less_than[5]'],
         );
         return $config;
+    }
+    
+    protected function load() {
+        if (($tasks = simplexml_load_file($this->_origin)) !== FALSE)
+            {
+                //if it is empty; 
+                if(empty($tasks)) {
+                    return;
+                }
+                
+                foreach ($tasks->task as $one) {
+                    $record = new stdClass();
+                    $record->id = (int) $one->id;
+                    $record->task = (string) $one->desc;
+                    $record->priority = (int) $one->priority;
+                    $record->size = (int) $one->size;
+                    $record->group = (int) $one->group;
+                    $record->deadline = (string) $one->deadline;
+                    $record->status = (int) $one->status;
+                    $record->flag = (int) $one->flag;
+                    
+                    $this->_data[$record->id] = $record;
+                } 
+            } else {
+                exit('Failed to open the xml file.');
+            }
+        // rebuild the keys table
+        $this->reindex();    
     }
     
     function getCategorizedTasks()

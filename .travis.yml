@@ -1,0 +1,6 @@
+# Travis CI Configuration File
+
+# Tell Travis CI we're using PHP
+language: php
+rvm:
+- 7.2.0
