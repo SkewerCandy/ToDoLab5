@@ -7,7 +7,8 @@ and open the template in the editor.
 
 
 <root>
-    <task id="1">
+    <task>
+        <id>1</id>
         <priority>2</priority>
         <size>2</size>
         <group>1</group>
@@ -16,7 +17,8 @@ and open the template in the editor.
         <flag></flag>
         <desc>Mow the lawn</desc>
     </task>
-    <task id="2">
+    <task>
+        <id>2</id>
         <priority>2</priority>
         <size>2</size>
         <group>1</group>
@@ -25,7 +27,8 @@ and open the template in the editor.
         <flag></flag>
         <desc>Wash the car</desc>
     </task>
-    <task id="3">
+    <task>
+        <id>3</id>
         <priority>1</priority>
         <size>2</size>
         <group>1</group>
@@ -34,7 +37,8 @@ and open the template in the editor.
         <flag></flag>
         <desc>Paint the fence</desc>
     </task>
-    <task id="4">
+    <task>
+        <id>4</id>
         <priority>1</priority>
         <size>2</size>
         <group>4</group>
@@ -43,7 +47,8 @@ and open the template in the editor.
         <flag></flag>
         <desc>Intramural hockey game</desc>
     </task>
-    <task id="5">
+    <task>
+        <id>5</id>
         <priority>3</priority>
         <size>3</size>
         <group>4</group>
@@ -52,7 +57,8 @@ and open the template in the editor.
         <flag></flag>
         <desc>Canucks hockey game</desc>
     </task>
-    <task id="6">
+    <task>
+        <id>6</id>
         <priority>2</priority>
         <size>1</size>
         <group>3</group>
