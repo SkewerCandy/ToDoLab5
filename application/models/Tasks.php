@@ -46,6 +46,48 @@ class Tasks extends XML_Model {
         $this->reindex();    
     }
     
+    protected function store() {
+         if (($open = fopen($this->_origin, "w")) !== FALSE) {
+            $xml = new DOMDocument( "1.0");
+            $xml->preserveWhiteSpace = false;
+            $xml->formatOutput = true;
+            $data = $xml->createElement("tasks");
+            
+            foreach($this->_data as $key => $value) {
+                $task = $xml->createElement("task");
+                
+                $item = $xml->createElement("id", htmlspecialchars($value->id));
+                $task->appendChild($item);
+                
+                $item = $xml->createElement("task", htmlspecialchars($value->task));
+                $task->appendChild($item);
+                
+                $item = $xml->createElement("priority", htmlspecialchars($value->priority));
+                $task->appendChild($item);
+                
+                $item = $xml->createElement("size", htmlspecialchars($value->size));
+                $task->appendChild($item);
+                
+                $item = $xml->createElement("group", htmlspecialchars($value->group));
+                $task->appendChild($item);
+                
+                $item = $xml->createElement("deadline", htmlspecialchars($value->deadline));
+                $task->appendChild($item);
+                
+                $item = $xml->createElement("status", htmlspecialchars($value->status));
+                $task->appendChild($item);
+                
+                $item = $xml->createElement("flag", htmlspecialchars($value->flag));
+                $task->appendChild($item);
+                
+                $data->appendChild($task);
+            }
+            $xml->appendChild($data);
+            $xml->saveXML($xml);
+            $xml->save($this->_origin);
+        }
+    }
+    
     function getCategorizedTasks()
     {
         // extract the undone tasks
